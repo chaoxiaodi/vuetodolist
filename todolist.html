@@ -6,6 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- 每十分钟刷新一次页面 -->
   <meta http-equiv="refresh" content="600">
+<!--  跨域-->
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
   <!-- import Vue before Element -->
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -140,7 +142,7 @@
   new Vue({ //记得声明，不然看不到element的input组件
     el: '#app',
     data: {
-      squareUrl: 'todolist.png',
+      squareUrl: 'https://github.com/chaoxiaodi/vuetodolist/blob/main/todolist.png',
       headTitle: '基于时间管理四象限的待办任务管理开源小工具',
       dtSelecter: '', // 时间选择控件绑定变量
       radioJobTag: '1', // 工作类型标签单选按钮绑定变量
@@ -152,7 +154,6 @@
       monthjob: [],
       historyjob: [],
       treeJobData: [],
-      defaultexpandedkeys: ['1000','2000','3000','4000', '9000'],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -206,10 +207,12 @@
           const tmpuuid = this.commonjob[j].uuid
           isShowStateList.push(tmpuuid)
         }
-
+        const tmpday = this.dtSelecter.slice(0, 10)
         for (j = 0, len=this.historyjob.length; j < len; j++) {
           const tmpuuid = this.historyjob[j].uuid
-          isShowStateList.push(tmpuuid)
+          if(this.historyjob[j].donetime.slice(0, 10) === tmpday ) {
+            isShowStateList.push(tmpuuid)
+          }
         }
         return isShowStateList
       },
